@@ -6,7 +6,7 @@
 #' @examples
 #' eurusd()
 eurusd <- function() {
-  GET(
+  response <- GET(
    'https://api.exchangeratesapi.io/latest?',
     query = list(
       base     = 'USD',
