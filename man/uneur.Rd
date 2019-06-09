@@ -16,7 +16,7 @@ integer
 Transforms a string into a number
 }
 \examples{
-uneur(€1)
-eur(€25275.156)
-eur(€-31525)
+uneur('€1')
+uneur('€25,275.156')
+uneur('€-31,525')
 }
