@@ -31,6 +31,7 @@ The next thing we need to do is get the daily BTCUSDT prices for the last 45 day
 ```{r}
 coin_prices <- binance_klines('BTCUSDT', interval = '1d', limit = 45)
 coin_prices <- coin_prices[, .(date = as.Date(close_time), btc_usd = close, volume_usd = volume)]
+head(coin_prices)
 ```
 
 In the next step, we will use the functions `eurusds` function from our created package to get the daily exchange rate of USD to EUR.
@@ -40,6 +41,7 @@ Our function needs two inputs, the start and end dates. For this we will get the
 date_from <- min(coin_prices$date)
 date_to <- max(coin_prices$date)
 exchange_rates <- eurusds(date_from, date_to)
+head(exchange_rates)
 setkey(exchange_rates, date)
 ```
 
@@ -52,6 +54,7 @@ setkey(coin_prices,date)
 
 coin_prices <- exchange_rates[coin_prices, roll = TRUE]
 coin_prices[, overall_value_eur := volume_usd * btc_usd * usdeur]
+head(coin_prices)
 ```
 
 The last thing we need to do is to visualize the overall values of the asset.
