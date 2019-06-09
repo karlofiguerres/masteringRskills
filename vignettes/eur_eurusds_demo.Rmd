@@ -1,0 +1,62 @@
+---
+title: "Demo of the `eur` and `eurusds` functions"
+author: "Karlo Figuerres"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The goal of this demonstration is to show how the `eur` and `eurusds` can be applied. In this example we will fetch the daily volume of Bitcoins sold for "USDT" on Binance and report the overall value of this asset in EUR on a `ggplot` for the past 45 days.
+
+
+The first thing we need to do is load the necessary packages.
+```{r, include = FALSE}
+library(binancer)
+library(data.table)
+library(ggplot2)
+library(figuerresproject)
+```
+
+The next thing we need to do is get the daily BTCUSDT prices for the last 45 days using the `binancer` package.
+```{r}
+coin_prices <- binance_klines('BTCUSDT', interval = '1d', limit = 45)
+coin_prices <- coin_prices[, .(date = as.Date(close_time), btc_usd = close, volume_usd = volume)]
+```
+
+In the next step, we will use the functions `eurusds` function from our created package to get the daily exchange rate of USD to EUR.
+
+Our function needs two inputs, the start and end dates. For this we will get the first and last dates in our coin_prices dataset.
+```{r}
+date_from <- min(coin_prices$date)
+date_to <- max(coin_prices$date)
+exchange_rates <- eurusds(date_from, date_to)
+setkey(exchange_rates, date)
+```
+
+
+We can now get the daily exchange rates from our exchange_rates dataset and combine it with our coin_prices dataset. 
+But take not that our exchange rates dataset only has 30 observations, this may be due to holidays and weekends that are included in our date range. To address this, we can impute the missing values with the last exchange rate available. For the next step, we will specify `roll` to be **TRUE**.
+
+```{r}
+setkey(coin_prices,date)
+
+coin_prices <- exchange_rates[coin_prices, roll = TRUE]
+coin_prices[, overall_value_eur := volume_usd * btc_usd * usdeur]
+```
+
+The last thing we need to do is to visualize the overall values of the asset.
+
+```{r, fig.width=7.25}
+ggplot(coin_prices, aes(date, overall_value_eur)) + geom_line() + theme_bw() + scale_y_continuous(labels = eur) + 
+  labs(title = 'Overall Value of Bitcoin in EUR for the past 45 days', x = 'Date', y = 'Overall Value of BTC' )
+```
