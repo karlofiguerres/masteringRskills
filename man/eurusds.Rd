@@ -2,20 +2,20 @@
 % Please edit documentation in R/eurusds.R
 \name{eurusds}
 \alias{eurusds}
-\title{Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates from date_from to date_to}
+\title{Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates}
 \usage{
 eurusds(date_from, date_to)
 }
 \arguments{
-\item{date_from}{starting date of our daily exchange rates}
+\item{date_from}{starting date of our daily exchange rates, must be in 'YYYY-mm-dd' format}
 
-\item{date_to}{ending date of our daily exchange rates}
+\item{date_to}{ending date of our daily exchange rates, must be in 'YYYY-mm-dd' format}
 }
 \value{
 data.table object
 }
 \description{
-Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates from date_from to date_to
+Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates
 }
 \examples{
 eurusds('2019-01-01', '2019-01-15')

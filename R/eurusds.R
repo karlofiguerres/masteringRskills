@@ -1,6 +1,6 @@
-#' Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates from date_from to date_to
-#' @param date_from starting date of our daily exchange rates
-#' @param date_to ending date of our daily exchange rates
+#' Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates
+#' @param date_from starting date of our daily exchange rates, must be in 'YYYY-mm-dd' format
+#' @param date_to ending date of our daily exchange rates, must be in 'YYYY-mm-dd' format
 #' @return data.table object
 #' @export
 #' @importFrom httr GET content
