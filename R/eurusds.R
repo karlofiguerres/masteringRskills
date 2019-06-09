@@ -20,7 +20,7 @@ eurusds <- function(date_from, date_to) {
     ))
   exchange_rates <- content(response)
   usdeur <- exchange_rates$rates
-  #log_info('Daily exchange rate of USD to EUR from {date_from} to {date_to} is:')
+  log_info('Daily exchange rate of USD to EUR from {date_from} to {date_to} is:')
   usdeur <- data.table(
     date = as.Date(names(usdeur)), usdeur = as.numeric(unlist(usdeur))
   )
