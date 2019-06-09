@@ -12,8 +12,12 @@ eurusds(date_from, date_to)
 \item{date_to}{ending date of our daily exchange rates}
 }
 \value{
-data.table ojbect
+data.table object
 }
 \description{
 Takes two arguments, date_from and date_to, and returns a data.table object on the daily exchange rates from date_from to date_to
+}
+\examples{
+eurusds('2019-01-01', '2019-01-15')
+eurusds('2019-01-01', '2019-01-30')
 }
